@@ -4,17 +4,12 @@
 
 ### Step 1: Get Free Database (2 minutes)
 
-**Option A: Supabase (Easiest)**
-1. Go to https://supabase.com
-2. Click "Start your project" → Sign up with GitHub
-3. Create new project → Wait 2 minutes
-4. Go to Settings → Database
-5. Copy the **Connection string** (URI format)
-
-**Option B: Neon**
-1. Go to https://neon.tech
-2. Sign up → Create project
-3. Copy connection string
+**Option A: MongoDB Atlas (Recommended)**
+1. Go to https://www.mongodb.com/atlas
+2. Create a free cluster
+3. Create a database user + password
+4. Network Access → allow your IP (and Vercel if needed)
+5. Copy the **MongoDB connection string** (`mongodb+srv://...`)
 
 ### Step 2: Push to GitHub (1 minute)
 
@@ -36,7 +31,8 @@ git push -u origin main
 2. Click "Add New" → "Project"
 3. Import your GitHub repo
 4. Add Environment Variables:
-   - `DATABASE_URL` = Your PostgreSQL connection string
+   - `MONGODB_URI` = Your MongoDB connection string (`mongodb://...` or `mongodb+srv://...`)
+   - `MONGODB_DB` = Your database name (optional)
    - `NEXTAUTH_URL` = `https://your-app-name.vercel.app` (Vercel will show this)
    - `NEXTAUTH_SECRET` = Run: `openssl rand -base64 32`
 5. Click "Deploy"
@@ -48,14 +44,6 @@ After deployment, run these commands locally:
 ```bash
 # Pull environment variables
 vercel env pull .env.local
-
-# Update Prisma for PostgreSQL
-# Edit prisma/schema.prisma, change:
-# provider = "postgresql"
-
-# Generate and migrate
-npx prisma generate
-npx prisma migrate deploy
 
 # Seed database
 npm run seed

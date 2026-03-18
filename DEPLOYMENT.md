@@ -6,29 +6,17 @@ This guide will help you deploy Agroveda Exports to Vercel (free hosting platfor
 
 1. **GitHub Account** - Free account at [github.com](https://github.com)
 2. **Vercel Account** - Free account at [vercel.com](https://vercel.com)
-3. **Database Account** - Free PostgreSQL database (we'll use Supabase or Neon)
+3. **Database Account** - MongoDB database (MongoDB Atlas recommended)
 
-## Step 1: Set Up Free PostgreSQL Database
+## Step 1: Set Up MongoDB Database
 
-### Option A: Supabase (Recommended)
+### Option A: MongoDB Atlas (Recommended)
 
-1. Go to [supabase.com](https://supabase.com)
-2. Sign up for a free account
-3. Create a new project
-4. Go to **Settings** → **Database**
-5. Copy the **Connection string** (URI format)
-   - It will look like: `postgresql://postgres:[YOUR-PASSWORD]@db.[PROJECT-REF].supabase.co:5432/postgres`
-
-### Option B: Neon (Alternative)
-
-1. Go to [neon.tech](https://neon.tech)
-2. Sign up for a free account
-3. Create a new project
-4. Copy the **Connection string** from the dashboard
-
-## Step 2: Update Prisma Schema for PostgreSQL
-
-The schema is already configured to work with both SQLite (development) and PostgreSQL (production).
+1. Go to [mongodb.com/atlas](https://www.mongodb.com/atlas)
+2. Create a free cluster
+3. Create a database user + password
+4. Network Access → allow your IP (and Vercel if needed)
+5. Copy the **MongoDB connection string** (`mongodb+srv://...`)
 
 ## Step 3: Push Your Code to GitHub
 
@@ -67,7 +55,7 @@ The schema is already configured to work with both SQLite (development) and Post
    Add these in Vercel's environment variables section:
    
    ```
-   DATABASE_URL=your-postgresql-connection-string
+   DATABASE_URL=your-mongodb-connection-string
    NEXTAUTH_URL=https://your-app-name.vercel.app
    NEXTAUTH_SECRET=generate-a-random-secret-here
    ```
@@ -89,25 +77,14 @@ The schema is already configured to work with both SQLite (development) and Post
 
 ## Step 5: Set Up Database
 
-After deployment, you need to run migrations and seed the database:
+After deployment, you need to seed the database:
 
-1. **Run Prisma Migrations**:
-   ```bash
-   npx prisma migrate deploy
-   ```
-   
-   Or use Vercel's CLI:
-   ```bash
-   vercel env pull .env.local
-   npx prisma migrate deploy
-   ```
-
-2. **Seed the Database**:
+1. **Seed the Database**:
    ```bash
    npm run seed
    ```
 
-   **Note**: You can run these commands locally with production DATABASE_URL, or use Vercel's CLI.
+   **Note**: You can run this command locally with production `MONGODB_URI`, or use Vercel's CLI.
 
 ## Step 6: Access Your Website
 
@@ -126,14 +103,15 @@ Once deployed, Vercel will provide you with:
 
 | Variable | Description | Example |
 |----------|-------------|---------|
-| `DATABASE_URL` | PostgreSQL connection string | `postgresql://user:pass@host:5432/db` |
+| `MONGODB_URI` | MongoDB connection string | `mongodb+srv://user:pass@cluster/db?retryWrites=true&w=majority` |
+| `MONGODB_DB` | Database name (optional) | `agroveda` |
 | `NEXTAUTH_URL` | Your app URL | `https://your-app.vercel.app` |
 | `NEXTAUTH_SECRET` | Secret for NextAuth | Random 32+ character string |
 | `WHATSAPP_NUMBER` | WhatsApp number (optional) | `919876543210` |
 
 ## Post-Deployment Checklist
 
-- [ ] Database migrations run successfully
+- [ ] Database schema synced successfully
 - [ ] Database seeded with admin user and products
 - [ ] Admin login works
 - [ ] Products display correctly
@@ -145,14 +123,13 @@ Once deployed, Vercel will provide you with:
 ## Troubleshooting
 
 ### Database Connection Issues
-- Verify DATABASE_URL is correct
+- Verify MONGODB_URI is correct
 - Check if database allows connections from Vercel's IPs
-- Ensure SSL is enabled in connection string (add `?sslmode=require`)
+- Ensure your network allowlist includes Vercel (or allow all, not recommended)
 
 ### Build Failures
 - Check build logs in Vercel dashboard
 - Ensure all environment variables are set
-- Verify Prisma schema is correct
 
 ### Authentication Issues
 - Verify NEXTAUTH_URL matches your deployment URL
@@ -168,22 +145,14 @@ Once deployed, Vercel will provide you with:
 - ✅ Custom domains
 - ⚠️ Serverless functions: 100GB-hours/month
 
-### Supabase Free Tier:
-- ✅ 500MB database storage
-- ✅ 2GB bandwidth/month
-- ✅ Unlimited API requests
-
-### Neon Free Tier:
-- ✅ 0.5GB storage
-- ✅ Unlimited projects
-- ✅ Auto-suspend after inactivity
+### MongoDB Atlas Free Tier:
+- ✅ Free shared cluster available (limits apply)
 
 ## Support
 
 For deployment issues, check:
 - [Vercel Documentation](https://vercel.com/docs)
 - [Next.js Deployment Guide](https://nextjs.org/docs/deployment)
-- [Prisma Deployment Guide](https://www.prisma.io/docs/guides/deployment)
 
 ---
 

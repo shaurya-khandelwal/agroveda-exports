@@ -8,7 +8,7 @@ Your website is **production-ready** and can be deployed to Vercel in just a few
 - ✅ Error pages created (404, 500)
 - ✅ Build configuration optimized
 - ✅ Vercel configuration ready
-- ✅ Database schema updated for PostgreSQL
+- ✅ Database schema updated for MongoDB
 - ✅ Environment variables documented
 - ✅ Build tested and working
 
@@ -16,16 +16,12 @@ Your website is **production-ready** and can be deployed to Vercel in just a few
 
 ### 1. Get Free Database (2 minutes)
 
-**Option A: Supabase (Easiest)**
-1. Visit: https://supabase.com
-2. Sign up → Create project
-3. Go to **Settings** → **Database**
-4. Copy the **Connection string** (URI format)
-
-**Option B: Neon**
-1. Visit: https://neon.tech
-2. Sign up → Create project
-3. Copy connection string
+**Option A: MongoDB Atlas (Recommended)**
+1. Visit: https://www.mongodb.com/atlas
+2. Create a free cluster
+3. Create a DB user + password
+4. Network Access → allow your IP (and Vercel if needed)
+5. Copy the connection string (`mongodb+srv://...`)
 
 ### 2. Push to GitHub (1 minute)
 
@@ -49,7 +45,8 @@ git push -u origin main
 4. **Import** your GitHub repository
 5. **Add Environment Variables**:
    ```
-   DATABASE_URL=your-postgresql-connection-string
+   MONGODB_URI=your-mongodb-connection-string
+   MONGODB_DB=agroveda
    NEXTAUTH_URL=https://your-app-name.vercel.app
    NEXTAUTH_SECRET=run: openssl rand -base64 32
    ```
@@ -66,16 +63,6 @@ npm i -g vercel
 # Pull environment variables
 vercel env pull .env.local
 
-# Update Prisma schema for PostgreSQL
-# Edit prisma/schema.prisma, change line 10:
-# provider = "postgresql"
-
-# Generate Prisma client
-npx prisma generate
-
-# Run migrations
-npx prisma migrate deploy
-
 # Seed database
 npm run seed
 ```
@@ -86,7 +73,8 @@ Add these in Vercel dashboard:
 
 | Variable | Value | How to Get |
 |----------|-------|------------|
-| `DATABASE_URL` | PostgreSQL connection string | From Supabase/Neon |
+| `MONGODB_URI` | MongoDB connection string | From MongoDB Atlas |
+| `MONGODB_DB` | Database name (optional) | Atlas / your choice |
 | `NEXTAUTH_URL` | Your Vercel URL | `https://your-app.vercel.app` |
 | `NEXTAUTH_SECRET` | Random secret | `openssl rand -base64 32` |
 
@@ -115,7 +103,7 @@ Add these in Vercel dashboard:
 - ✅ SEO optimized
 - ✅ Fast loading
 - ✅ Secure authentication
-- ✅ Database migrations
+- ✅ Database schema sync
 - ✅ Production build tested
 
 ---

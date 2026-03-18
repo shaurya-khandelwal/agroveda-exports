@@ -1,6 +1,6 @@
 # Agroveda Exports Website
 
-A modern, production-ready website for agricultural exports built with Next.js, TypeScript, Prisma, and NextAuth.
+A modern, production-ready website for agricultural exports built with Next.js, TypeScript, MongoDB, and NextAuth.
 
 ## 🚀 Quick Deploy
 
@@ -23,7 +23,7 @@ A modern, production-ready website for agricultural exports built with Next.js, 
 - **Framework**: Next.js 14 (App Router)
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS
-- **Database**: SQLite (dev) / PostgreSQL (production)
+- **Database**: MongoDB
 - **Authentication**: NextAuth.js
 - **Form Handling**: React Hook Form + Zod
 - **Icons**: Lucide React
@@ -46,7 +46,8 @@ A modern, production-ready website for agricultural exports built with Next.js, 
 2. **Set up environment variables**:
    Create a `.env` file in the root directory:
    ```env
-   DATABASE_URL="file:./dev.db"
+   MONGODB_URI="mongodb://127.0.0.1:27017/agroveda"
+   MONGODB_DB="agroveda"
    NEXTAUTH_URL=http://localhost:3000
    NEXTAUTH_SECRET=your-secret-key-here-change-in-production
    WHATSAPP_NUMBER=+91XXXXXXXXXX
@@ -57,10 +58,9 @@ A modern, production-ready website for agricultural exports built with Next.js, 
    openssl rand -base64 32
    ```
 
-3. **Set up the database**:
+3. **Seed the database** (creates admin user and products):
    ```bash
-   npx prisma generate
-   npx prisma migrate dev --name init
+   npm run seed
    ```
 
 4. **Seed the database** (creates admin user and products):
@@ -105,10 +105,8 @@ A modern, production-ready website for agricultural exports built with Next.js, 
 │   ├── AdminDashboard.tsx
 │   └── ...
 ├── lib/                   # Utility functions
-│   ├── prisma.ts         # Prisma client
+│   ├── mongodb.ts        # MongoDB client/db
 │   └── auth.ts           # Auth configuration
-├── prisma/
-│   └── schema.prisma     # Database schema
 └── scripts/
     └── seed.ts           # Database seeding script
 ```
@@ -163,16 +161,9 @@ See [DEPLOYMENT.md](./DEPLOYMENT.md) for complete deployment instructions.
 
 ### Database Options (Free)
 
-1. **Supabase** - PostgreSQL (Recommended)
-   - Free tier: 500MB storage, 2GB bandwidth
-   - [Get Started](https://supabase.com)
-
-2. **Neon** - Serverless PostgreSQL
-   - Free tier: 0.5GB storage
-   - [Get Started](https://neon.tech)
-
-3. **Railway** - PostgreSQL
-   - Free tier with $5 credit
+1. **MongoDB Atlas** (Recommended)
+   - Free tier available
+   - [Get Started](https://www.mongodb.com/atlas)
 
 ## Customization
 
@@ -196,7 +187,7 @@ Use the admin dashboard or add them directly to the database.
 - ✅ Change default admin password immediately
 - ✅ Use strong `NEXTAUTH_SECRET` in production
 - ✅ Use environment variables for sensitive data
-- ✅ Use PostgreSQL for production (not SQLite)
+- ✅ Restrict DB network access (IP allowlist / VPC)
 - ✅ Enable HTTPS (automatic with Vercel)
 - ✅ Regular security updates
 

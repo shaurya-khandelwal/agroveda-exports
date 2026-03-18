@@ -8,7 +8,8 @@ echo "🚀 Starting Agroveda Exports Website Setup..."
 if [ ! -f .env ]; then
     echo "📝 Creating .env file..."
     cat > .env << EOF
-DATABASE_URL="file:./dev.db"
+MONGODB_URI="mongodb://127.0.0.1:27017/agroveda"
+MONGODB_DB="agroveda"
 NEXTAUTH_URL=http://localhost:3000
 NEXTAUTH_SECRET=$(openssl rand -base64 32)
 WHATSAPP_NUMBER=+919876543210
@@ -27,29 +28,8 @@ else
     echo "✅ Dependencies already installed"
 fi
 
-# Generate Prisma Client
-echo "🔧 Setting up database..."
-npx prisma generate
-
-# Check if database exists
-if [ ! -f "prisma/dev.db" ]; then
-    echo "🗄️  Creating database..."
-    npx prisma migrate dev --name init
-    echo "✅ Database created"
-else
-    echo "✅ Database already exists"
-fi
-
-# Check if database is seeded
-SEEDED=$(npx prisma db execute --stdin <<< "SELECT COUNT(*) as count FROM Product;" 2>/dev/null | grep -o '[0-9]' | head -1 || echo "0")
-
-if [ "$SEEDED" = "0" ] || [ -z "$SEEDED" ]; then
-    echo "🌱 Seeding database with initial data..."
-    npm run seed
-    echo "✅ Database seeded"
-else
-    echo "✅ Database already seeded"
-fi
+echo "🌱 Seeding database with initial data..."
+npm run seed
 
 echo ""
 echo "🎉 Setup complete! Starting development server..."

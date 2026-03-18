@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { Loader2 } from 'lucide-react'
+import Link from 'next/link'
 
 export default function SignInPage() {
   const router = useRouter()
@@ -38,25 +39,35 @@ export default function SignInPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Sign in to your account
+    <div className="min-h-screen bg-gradient-to-b from-cream-100 via-white to-white flex items-center justify-center py-16 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full">
+        <div className="mb-8 text-center">
+          <Link href="/" className="inline-flex items-baseline gap-3">
+            <span className="font-serif text-3xl tracking-tight text-forest-900">
+              Agri<span className="text-gold-600">veda</span>
+            </span>
+            <span className="text-xs uppercase tracking-[0.35em] text-forest-900/60">
+              Exports
+            </span>
+          </Link>
+          <h2 className="mt-6 font-serif text-3xl md:text-4xl font-bold text-forest-900">
+            Admin Sign In
           </h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
-            Access the admin dashboard to manage products
+          <p className="mt-2 text-sm text-forest-900/70">
+            Access the dashboard to manage products and enquiries.
           </p>
         </div>
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+
+        <div className="rounded-2xl border border-forest-900/10 bg-white shadow-sm p-8">
+          <form className="space-y-6" onSubmit={handleSubmit}>
           {error && (
-            <div className="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded">
+            <div className="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-xl">
               {error}
             </div>
           )}
-          <div className="rounded-md shadow-sm -space-y-px">
+          <div className="space-y-4">
             <div>
-              <label htmlFor="email" className="sr-only">
+              <label htmlFor="email" className="block text-sm font-medium text-forest-900/80 mb-2">
                 Email address
               </label>
               <input
@@ -67,12 +78,13 @@ export default function SignInPage() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-primary-500 focus:border-primary-500 focus:z-10 sm:text-sm"
-                placeholder="Email address"
+                className="block w-full px-4 py-3 border border-forest-900/15 rounded-xl placeholder-forest-900/40 text-forest-900 focus:outline-none focus:ring-2 focus:ring-gold-400/60 focus:border-transparent"
+                placeholder="admin@agrovedaexports.com"
               />
             </div>
+
             <div>
-              <label htmlFor="password" className="sr-only">
+              <label htmlFor="password" className="block text-sm font-medium text-forest-900/80 mb-2">
                 Password
               </label>
               <input
@@ -83,8 +95,8 @@ export default function SignInPage() {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-primary-500 focus:border-primary-500 focus:z-10 sm:text-sm"
-                placeholder="Password"
+                className="block w-full px-4 py-3 border border-forest-900/15 rounded-xl placeholder-forest-900/40 text-forest-900 focus:outline-none focus:ring-2 focus:ring-gold-400/60 focus:border-transparent"
+                placeholder="••••••••"
               />
             </div>
           </div>
@@ -93,7 +105,7 @@ export default function SignInPage() {
             <button
               type="submit"
               disabled={isLoading}
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="group relative w-full inline-flex items-center justify-center py-3.5 px-4 text-sm font-extrabold uppercase tracking-[0.14em] rounded-xl text-white bg-forest-900 hover:bg-forest-800 focus:outline-none focus:ring-2 focus:ring-gold-400/60 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isLoading ? (
                 <>
@@ -105,7 +117,12 @@ export default function SignInPage() {
               )}
             </button>
           </div>
+
+          <p className="pt-4 text-xs text-center text-forest-900/60">
+            Protected area for administrators only.
+          </p>
         </form>
+        </div>
       </div>
     </div>
   )

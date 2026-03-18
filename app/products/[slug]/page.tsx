@@ -1,13 +1,16 @@
-import { prisma } from '@/lib/prisma'
 import { notFound } from 'next/navigation'
 import ProductDetail from '@/components/ProductDetail'
 import EnquiryForm from '@/components/EnquiryForm'
+import { getDb } from '@/lib/mongodb'
+import type { ProductDoc } from '@/lib/models'
+import { serializeProduct } from '@/lib/serialize'
+
+export const dynamic = 'force-dynamic'
 
 async function getProduct(slug: string) {
-  const product = await prisma.product.findUnique({
-    where: { slug },
-  })
-  return product
+  const db = await getDb()
+  const product = await db.collection<ProductDoc>('products').findOne({ slug })
+  return product ? serializeProduct(product) : null
 }
 
 export default async function ProductPage({
@@ -22,10 +25,15 @@ export default async function ProductPage({
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-16">
-      <div className="container mx-auto px-4">
+    <div className="min-h-screen bg-cream-50">
+      {/* Thin forest bar at very top */}
+      <div className="h-1 bg-gradient-to-r from-forest-900 via-gold-500 to-forest-900" />
+
+      <div className="container mx-auto px-4 py-12 md:py-16">
         <ProductDetail product={product} />
-        <div className="mt-12 max-w-2xl mx-auto">
+
+        {/* Enquiry form */}
+        <div className="mt-10 max-w-2xl mx-auto">
           <EnquiryForm productId={product.id} productName={product.name} />
         </div>
       </div>

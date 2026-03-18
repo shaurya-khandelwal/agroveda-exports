@@ -13,7 +13,8 @@ npm install
 Create a `.env` file in the root directory with the following content:
 
 ```env
-DATABASE_URL="file:./dev.db"
+MONGODB_URI="mongodb://127.0.0.1:27017/agroveda"
+MONGODB_DB="agroveda"
 NEXTAUTH_URL=http://localhost:3000
 NEXTAUTH_SECRET=your-secret-key-here
 WHATSAPP_NUMBER=+91XXXXXXXXXX
@@ -29,11 +30,8 @@ Copy the output and paste it as your `NEXTAUTH_SECRET` value.
 ## Step 3: Set Up Database
 
 ```bash
-# Generate Prisma Client
-npx prisma generate
-
-# Create database and run migrations
-npx prisma migrate dev --name init
+# Seed database (creates admin user and products)
+npm run seed
 ```
 
 ## Step 4: Seed Database
@@ -79,8 +77,7 @@ Navigate to: [http://localhost:3000](http://localhost:3000)
 If you encounter database errors:
 ```bash
 # Reset database
-npx prisma migrate reset
-# Then run seed again
+mongo agroveda --eval "db.dropDatabase()"  # or use MongoDB Compass
 npm run seed
 ```
 

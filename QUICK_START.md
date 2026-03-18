@@ -16,7 +16,8 @@ chmod +x start.sh
 ```bash
 cd "/Users/shauryakhandelwal/Documents/Agriveda exports"
 cat > .env << 'EOF'
-DATABASE_URL="file:./dev.db"
+MONGODB_URI="mongodb://127.0.0.1:27017/agroveda"
+MONGODB_DB="agroveda"
 NEXTAUTH_URL=http://localhost:3000
 NEXTAUTH_SECRET=U/ENCzyJn7koaYU3LgEd5i9Gli0JdDK85R049sRG2Zo=
 WHATSAPP_NUMBER=+919876543210
@@ -30,16 +31,10 @@ npm install
 
 3. **Set up database**:
 ```bash
-npx prisma generate
-npx prisma migrate dev --name init
-```
-
-4. **Seed database** (creates admin user and products):
-```bash
 npm run seed
 ```
 
-5. **Start the server**:
+4. **Start the server**:
 ```bash
 npm run dev
 ```
