@@ -60,17 +60,7 @@ export default function ProductCard({ product }: { product: Product }) {
           <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-white/90">In Stock</span>
         </div>
 
-        {/* Price badge */}
-        {product.price && (
-          <div className="absolute bottom-3 right-3 rounded-xl bg-gold-500/90 backdrop-blur-sm px-3 py-1.5 border border-gold-400/30">
-            <span className="text-forest-900 font-extrabold text-sm">
-              ${product.price}
-              <span className="text-forest-900/70 font-normal text-[11px] ml-0.5">{product.unit ?? '/kg'}</span>
-            </span>
-          </div>
-        )}
-
-        {/* Hover overlay */}
+{/* Hover overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
       </div>
 

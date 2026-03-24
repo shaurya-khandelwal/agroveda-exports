@@ -123,14 +123,6 @@ export default function ProductDetail({ product }: { product: Product }) {
               {product.name}
             </h1>
 
-            {/* Price */}
-            {product.price && (
-              <div className="flex items-baseline gap-1 mb-6">
-                <span className="font-serif text-3xl font-bold text-gold-600">${product.price}</span>
-                <span className="text-forest-900/50 text-sm">{product.unit ?? '/kg'}</span>
-                <span className="ml-2 text-[10px] uppercase tracking-[0.2em] text-forest-900/40">Indicative price</span>
-              </div>
-            )}
 
             {/* Intro paragraph */}
             {intro.length > 0 && (
